@@ -16,10 +16,10 @@ export class Episode {
   @Column()
   episode_code: string;
 
-  @ManyToMany(() => Character, character => character.episodes)
+  @ManyToMany(() => Character, (character) => character.episodes)
   characters: Character[];
 
-  @OneToMany(() => Comment, comment => comment.episode)
+  @OneToMany(() => Comment, (comment) => comment.episode)
   episode_comments: Comment[];
 
   @Column({ type: 'timestamp' })
