@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Character } from 'src/Entities/character.entity';
+import { CreateCharacterDto } from './dto/create-character.dto';
 @Injectable()
 export class CharacterService {
   constructor(
@@ -9,6 +10,12 @@ export class CharacterService {
     private characterRepository: Repository<Character>,
   ) {}
 
+  async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
+    const character = this.characterRepository.create(createCharacterDto);
+    return await this.characterRepository.save(character);
+  }
+
+  
   async getCharacters(sortBy: string, sortOrder: 'ASC' | 'DESC', filters: any): Promise<Character[]> {
     const query = this.characterRepository.createQueryBuilder('character');
 
