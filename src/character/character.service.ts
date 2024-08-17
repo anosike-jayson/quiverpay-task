@@ -16,23 +16,24 @@ export class CharacterService {
   ) {}
 
   async createCharacter(createCharacterDto: CreateCharacterDto): Promise<Character> {
-    const { locationId, episodeIds, ...rest } = createCharacterDto;
+    const { locationId, episodeIds = [], ...rest } = createCharacterDto; 
+    
     const location = await this.locationService.getLocationById(locationId);
     if (!location) {
       throw new Error('Location not found');
     }
-    const episodes = episodeIds.length > 0 
-    ? await this.episodeRepository.find({
-        where: { id: In(episodeIds) }
-      })
-    : [];
-
+    const episodes = episodeIds && episodeIds.length > 0
+      ? await this.episodeRepository.find({
+          where: { id: In(episodeIds) }
+        })
+      : [];
+  
     const character = this.characterRepository.create({
       ...rest,
       location, 
       episodes,
     });
-
+  
     return await this.characterRepository.save(character);
   }
 
