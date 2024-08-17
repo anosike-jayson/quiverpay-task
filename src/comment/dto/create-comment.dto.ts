@@ -1,5 +1,15 @@
+import { IsString, IsNotEmpty, IsOptional, IsInt } from 'class-validator';
+
 export class CreateCommentDto {
-    readonly comment: string;
-    readonly ip_address_location: string;
-  }
-  
+
+  @IsInt()
+  episodeId: number;
+
+  @IsString()
+  @IsNotEmpty()
+  comment: string;
+
+  @IsString()
+  @IsOptional()
+  ipAddressLocation?: string;
+}

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Episode } from 'src/Entities/episode.entity';
 import { CreateCommentDto } from '../comment/dto/create-comment.dto';
 import { Comment } from 'src/Entities/comment.entity';
+import { CreateEpisodeDto } from './dto/create-episode.dto';
 
 @Injectable()
 export class EpisodeService {
@@ -14,6 +15,11 @@ export class EpisodeService {
     private commentRepository: Repository<Comment>,
   ) {}
 
+  async createEpisode(createEpisodeDto: CreateEpisodeDto): Promise<Episode> {
+    const episode = this.episodeRepository.create(createEpisodeDto);
+    return await this.episodeRepository.save(episode);
+  }
+  
   async getEpisodes(): Promise<any[]> {
     const result = await this.episodeRepository
       .createQueryBuilder('episode')

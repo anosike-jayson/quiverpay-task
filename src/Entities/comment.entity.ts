@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
 import { Episode } from './episode.entity';
 
 @Entity()
@@ -12,7 +12,7 @@ export class Comment {
   @Column()
   ip_address_location: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
   @ManyToOne(() => Episode, (episode) => episode.episode_comments)

@@ -8,7 +8,10 @@ export class Character {
   id: number;
 
   @Column()
-  name: string;
+  first_name: string;
+
+  @Column()
+  last_name: string;
 
   @Column()
   status: string;

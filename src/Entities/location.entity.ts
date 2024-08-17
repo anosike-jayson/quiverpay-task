@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { Character } from './character.entity';
 
 @Entity()
@@ -9,15 +9,15 @@ export class Location {
   @Column()
   name: string;
 
-  @Column('double precision')
+  @Column('decimal', { precision: 10, scale: 7 })
   latitude: number;
 
-  @Column('double precision')
+  @Column('decimal', { precision: 10, scale: 7 })
   longitude: number;
 
   @OneToMany(() => Character, character => character.location)
   characters: Character[];
 
-  @Column({ type: 'timestamp' })
-  created: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at: Date;
 }

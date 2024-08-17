@@ -1,11 +1,17 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { EpisodeService } from './episode.service';
 import { CreateCommentDto } from 'src/comment/dto/create-comment.dto';
+import { Episode } from 'src/Entities/episode.entity';
+import { CreateEpisodeDto } from './dto/create-episode.dto';
 
 @Controller('episodes')
 export class EpisodeController {
   constructor(private readonly episodeService: EpisodeService) {}
 
+  @Post()
+  async createEpisode(@Body() createEpisodeDto: CreateEpisodeDto): Promise<Episode> {
+    return this.episodeService.createEpisode(createEpisodeDto);
+  }
   @Get()
   async getAllEpisodes() {
     return this.episodeService.getEpisodes();

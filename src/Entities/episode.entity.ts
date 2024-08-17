@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToMany, CreateDateColumn } from 'typeorm';
 import { Character } from './character.entity';
 import { Comment } from './comment.entity';
 
@@ -22,6 +22,6 @@ export class Episode {
   @OneToMany(() => Comment, (comment) => comment.episode)
   episode_comments: Comment[];
 
-  @Column({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 }
