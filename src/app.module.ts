@@ -13,18 +13,22 @@ import { LocationController } from './location/location.controller';
 import { CommentController } from './comment/comment.controller';
 import { EpisodeController } from './episode/episode.controller';
 import { CharacterController } from './character/character.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost', 
-      port: 5432,
-      username: '',
-      password: '',
-      database: 'myDatabase',
-      entities: [Character, Location, Episode, Comment],
-      synchronize: true,
+    ConfigModule.forRoot(), 
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'postgres',
+        host: 'localhost', 
+        port: 5432,
+        username: process.env.PG_USERNAME,
+        password: process.env.PG_PASSWORD,
+        database: process.env.PG_DATABASE,
+        entities: [Character, Location, Episode, Comment],
+        synchronize: true,
+      }),
     }),
     TypeOrmModule.forFeature([Character, Location, Episode, Comment]),
     CharacterModule,
