@@ -38,18 +38,12 @@ export class CharacterService {
   }
 
   
-  async getCharacters(sortBy: string, sortOrder: 'ASC' | 'DESC', filters: any): Promise<Character[]> {
+  async getCharacters(
+    sortBy: 'first_name' | 'gender',
+    sortOrder: 'ASC' | 'DESC'
+  ): Promise<Character[]> {
     const query = this.characterRepository.createQueryBuilder('character');
 
-    if (filters.gender) {
-      query.andWhere('character.gender = :gender', { gender: filters.gender });
-    }
-    if (filters.status) {
-      query.andWhere('character.status = :status', { status: filters.status });
-    }
-    if (filters.location) {
-      query.andWhere('character.location = :location', { location: filters.location });
-    }
     if (sortBy) {
       query.orderBy(`character.${sortBy}`, sortOrder);
     }

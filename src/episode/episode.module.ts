@@ -5,12 +5,12 @@ import { EpisodeController } from './episode.controller';
 import { Episode } from 'src/Entities/episode.entity';
 import { CommentModule } from '../comment/comment.module'; 
 import { Comment } from 'src/Entities/comment.entity';
+import { Character } from 'src/Entities/character.entity';
 @Module({
   providers: [EpisodeService],
   controllers: [EpisodeController],
   imports: [
-    TypeOrmModule.forFeature([Episode, Comment]),
-    CommentModule,
+    TypeOrmModule.forFeature([Episode, Character, Comment]),
   ],
   exports: [EpisodeService],
 })

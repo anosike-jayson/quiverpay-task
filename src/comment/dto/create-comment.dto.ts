@@ -1,7 +1,6 @@
 import { IsString, IsNotEmpty, IsOptional, IsInt } from 'class-validator';
 
 export class CreateCommentDto {
-
   @IsInt()
   episodeId: number;
 
@@ -11,5 +10,5 @@ export class CreateCommentDto {
 
   @IsString()
   @IsOptional()
-  ipAddressLocation?: string;
+  ipAddressLocation: string;
 }
