@@ -37,17 +37,38 @@ export class CharacterService {
     return await this.characterRepository.save(character);
   }
 
+  async getEpisodesForCharacter(characterId: number): Promise<Episode[]> {
+    return this.episodeRepository
+      .createQueryBuilder('episode')
+      .leftJoin('episode.characters', 'character')
+      .where('character.id = :characterId', { characterId })
+      .getMany();
+  }
+
   
   async getCharacters(
-    sortBy: 'first_name' | 'gender',
-    sortOrder: 'ASC' | 'DESC'
+    sortBy: string,
+    sortOrder: 'ASC' | 'DESC',
+    filters: any
   ): Promise<Character[]> {
     const query = this.characterRepository.createQueryBuilder('character');
 
-    if (sortBy) {
-      query.orderBy(`character.${sortBy}`, sortOrder);
+    if (filters.gender) {
+      query.andWhere('character.gender = :gender', { gender: filters.gender });
     }
-
+    if (filters.status) {
+      query.andWhere('character.status = :status', { status: filters.status });
+    }
+    if (filters.location) {
+      query.andWhere('character.location = :location', { location: filters.location });
+    }
+    if (sortBy === 'name') {
+      query.orderBy('character.first_name', sortOrder).addOrderBy('character.last_name', sortOrder);
+    } else if (sortBy === 'gender') {
+      query.orderBy('character.gender', sortOrder);
+    }
+  
     return await query.getMany();
   }
+  
 }

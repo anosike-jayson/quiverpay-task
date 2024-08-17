@@ -49,7 +49,7 @@ export class EpisodeService {
     const result = await this.episodeRepository
       .createQueryBuilder('episode')
       .leftJoinAndSelect('episode.episode_comments', 'comment')
-      .orderBy('episode.release_date', 'ASC')
+      .orderBy('episode.release_date', 'ASC') 
       .select([
         'episode.id',
         'episode.name',
@@ -62,15 +62,16 @@ export class EpisodeService {
       .addGroupBy('episode.release_date')
       .addGroupBy('episode.episode_code')
       .getRawMany();
-      
+
     return result.map(raw => ({
       id: raw.episode_id,
       name: raw.episode_name,
       releaseDate: raw.episode_release_date,
       episodeCode: raw.episode_episode_code,
-      commentCount: parseInt(raw.commentcount, 10)|| 0,
-    }));  
-  }
+      commentCount: parseInt(raw.commentcount, 10) || 0,
+    }));
+}
+
   
 
   public async getEpisodeById(id: number): Promise<Episode> {

@@ -17,9 +17,6 @@ export class CreateCharacterDto {
   gender: string;
 
   @IsString()
-  species: string;
-
-  @IsString()
   origin: string;
 
   @IsString()

@@ -10,5 +10,5 @@ export class CreateCommentDto {
 
   @IsString()
   @IsOptional()
-  ipAddressLocation: string;
+  ip_address_location: string;
 }

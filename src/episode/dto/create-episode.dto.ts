@@ -16,6 +16,7 @@ export class CreateEpisodeDto {
   @IsArray()
   @IsInt({ each: true })
   characterIds: number[]; 
+  
   @IsOptional()
   @IsArray()
   @IsInt({ each: true })
