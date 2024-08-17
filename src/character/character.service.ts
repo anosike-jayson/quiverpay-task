@@ -1,17 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Character } from 'src/Entities/character.entity';
 import { CreateCharacterDto } from './dto/create-character.dto';
+import { LocationService } from 'src/location/location.service';
+import { Episode } from 'src/Entities/episode.entity';
 @Injectable()
 export class CharacterService {
   constructor(
     @InjectRepository(Character)
     private characterRepository: Repository<Character>,
+    @InjectRepository(Episode)
+    private episodeRepository: Repository<Episode>,
+    private locationService: LocationService,
   ) {}
 
-  async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
-    const character = this.characterRepository.create(createCharacterDto);
+  async createCharacter(createCharacterDto: CreateCharacterDto): Promise<Character> {
+    const { locationId, episodeIds, ...rest } = createCharacterDto;
+    const location = await this.locationService.getLocationById(locationId);
+    if (!location) {
+      throw new Error('Location not found');
+    }
+    const episodes = episodeIds.length > 0 
+    ? await this.episodeRepository.find({
+        where: { id: In(episodeIds) }
+      })
+    : [];
+
+    const character = this.characterRepository.create({
+      ...rest,
+      location, 
+      episodes,
+    });
+
     return await this.characterRepository.save(character);
   }
 

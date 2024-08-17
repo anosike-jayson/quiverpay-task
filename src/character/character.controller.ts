@@ -9,7 +9,7 @@ export class CharacterController {
 
   @Post()
   async create(@Body() createCharacterDto: CreateCharacterDto) {
-    return this.characterService.create(createCharacterDto);
+    return this.characterService.createCharacter(createCharacterDto);
   }
   @Get()
   async getCharacters(

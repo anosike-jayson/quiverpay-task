@@ -1,9 +1,17 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, ArrayNotEmpty, IsArray } from 'class-validator';
 
 export class CreateCharacterDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  first_name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  last_name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  state_of_origin: string;
 
   @IsString()
   gender: string;
@@ -16,4 +24,11 @@ export class CreateCharacterDto {
 
   @IsString()
   status: string;
+
+  @IsNumber()
+  locationId: number;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  episodeIds: number[];
 }
